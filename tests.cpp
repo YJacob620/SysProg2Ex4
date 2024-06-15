@@ -178,8 +178,6 @@ TEST_CASE("4") {
   CHECK(totest == "(100.00, 100.00) (10.00, -5.00) (0.50, 0.10) (5.00, 0.00) (0.50, 0.20) (0.30, 15.00) ");
   totest.clear();
 
-  std::cout << "POST" << std::endl;
-
   it = t.begin_post_order();
   end = t.end_post_order();
   for (; it != end; ++it) {
