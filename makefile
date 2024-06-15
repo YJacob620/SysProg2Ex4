@@ -4,6 +4,9 @@
 COM = g++ -Wall
 H = tree_classes.hpp
 
+tree: main
+	./main
+
 main: main.cpp $(H)
 	$(COM) main.cpp -o main
 
