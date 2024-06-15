@@ -1,6 +1,3 @@
-// ID: *****1536
-// EMAIL: yairjacob620@gmail.com
-
 #ifndef TREE_VISUALIZER_H
 #define TREE_VISUALIZER_H
 
@@ -20,10 +17,10 @@
 #define DEF_WINDOW_SIZE 1300, 800
 #define DEF_X 300
 #define DEF_Y 50
-#define DEF_RADIUS 50
+#define DEF_RADIUS 30
 #define DEF_OFFSET_X 200
 #define DEF_OFFSET_Y DEF_RADIUS*4
-#define DEF_FONT "Arial", DEF_RADIUS/5
+#define DEF_FONT "Arial", DEF_RADIUS/3
 #define DEF_LINE_WIDTH 5
 #define LINE_ZVALUE 0
 #define ELLIPSE_ZVALUE 1
@@ -81,7 +78,7 @@ private:
             lineItem->setPen(pen);
             lineItem->setZValue(LINE_ZVALUE);
 
-            int new_offsetX = std::max(radius * (parent->children.size()), offsetX/parent->children.size());
+            int new_offsetX = std::max(radius * (parent->children.size()), offsetX/(parent->children.size()+1));
             if (parent->children.size() == 1) {
                 new_offsetX*=2;
             }
