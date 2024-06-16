@@ -3,7 +3,7 @@
 
 #include "complex.hpp"
 #include "tree_classes.hpp"
-// #include "tree_visualizer.hpp"
+#include "tree_visualizer.hpp"
 #include <cstring>
 #include <random>
 
