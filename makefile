@@ -14,7 +14,7 @@ test: tests.o $(H) complex.hpp
 	$(COM) tests.o -o tests
 	./tests
 
-tests.o: tests.cpp # doctest.h 
+tests.o: tests.cpp doctest.h 
 	$(COM) -c tests.cpp
 
 clean:
