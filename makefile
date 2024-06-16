@@ -1,21 +1,26 @@
 # ID: *****1536
 # EMAIL: yairjacob620@gmail.com
 
-COM = g++ -Wall
+ifeq ($(OS),Windows_NT)
+	COMP = g++
+else
+	COMP = clang++
+endif
+FLA = -Wall
 H = tree_classes.hpp
 
 tree: main
 	./main
 
 main: main.cpp $(H)
-	$(COM) main.cpp -o main
+	$(COMP) $(FLA) main.cpp -o main
 
 test: tests.o $(H) complex.hpp
-	$(COM) tests.o -o tests
+	$(COMP) $(FLA) tests.o -o tests
 	./tests
 
 tests.o: tests.cpp doctest.h 
-	$(COM) -c tests.cpp
+	$(COMP) $(FLA) -c tests.cpp
 
 clean:
 	rm *.o *.exe
