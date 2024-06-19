@@ -17,5 +17,5 @@
 | `make clean` | Deletes all .o files and executables. |
 
 * Main can be executed without any arguments, for the same outputs as `make tree`, and can also be executed with the following arguments:
-* "2" - Creates and iterates over a random 30-ary long-tree, and displays it in a GUI (if run through Qt Creator).
-* "3" - Creates and iterates over a random 30-ary Complex-tree, and displays it in a GUI (if run through Qt Creator).
+* "2" - Creates and iterates over a random 30-ary Complex-tree, and displays it in a GUI (if run through Qt Creator).
+* "3" - Creates and iterates over a random 30-ary long-tree, and displays it in a GUI (if run through Qt Creator).
