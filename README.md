@@ -8,7 +8,7 @@
 
 ## **אופן המימוש והחלוקה בקוד**
 קודקוד בעץ ממומש בתור המחלקה `Node` (שמכילה, בין היתר, משתנה גנרי), העץ עצמו בתור המחלקה `Tree` (שמכילה, בין היתר, שורש מסוג `Node`) והאיטרטור ל-`Tree` ממומש בתור המחלקה הפנימית `Treeterator`. ה-GUI מומש דרך `Qt Creator` בעזרת המחלקה `TreeVisualizer` (שיורשת ממחלקות בספריות של Qt). 
-
+## אופן הפעלת התוכנית
 | Command | Description |
 | ---------- | ---------- |
 | `make` or <br>`make tree` | Creates and runs an executable `main` which builds a binary int tree, iterate over it with the different iterators and displays it in a GUI (if run through Qt Creator). |
