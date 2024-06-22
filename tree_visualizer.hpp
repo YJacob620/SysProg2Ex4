@@ -65,11 +65,20 @@ class TreeVisualizer : public QMainWindow {
   void addNodeToSceneRecursive(QGraphicsScene *scene, QGraphicsEllipseItem *parentItem, const Node<T> *parent,
                                int parentX, int parentY, int offsetX, int radius) {
     auto child_num = parent->children.size();
+    if (offsetX > 3000) {
+      offsetX = 3000;
+    }
     if (offsetX < radius * 2 * child_num) {
-      offsetX = radius * 2;
+      offsetX = radius * 2 * child_num;
+    }
+    else {
+      offsetX -= radius * 2;
     }
     int childY = parentY + DEF_OFFSET_Y;
-    int childX = parentX - ((offsetX / 2) * (child_num - 1));
+    int childX;
+    if (child_num > 0) {
+      childX = parentX - ((offsetX / 2) * (child_num - 1));
+    }
 
     for (unsigned i = 0; i < child_num; ++i) {
       Node<T> *child = parent->children[i];
@@ -93,3 +102,4 @@ class TreeVisualizer : public QMainWindow {
     }
   }
 };
+
