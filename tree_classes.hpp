@@ -11,8 +11,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <type_traits>
+#include <vector>
 
 #define PRE 0
 #define POST 1
@@ -24,6 +25,7 @@
 
 using std::runtime_error;
 using std::string;
+using std::tuple;
 using std::vector;
 
 template <typename T>
@@ -72,6 +74,26 @@ public:
         this->value = other.value;
         other.value = tmp;
     }
+
+    /// @brief Heapifies the subtree rooted at this node.
+    inline void heapify() {
+        if (children.empty()) {
+            return;
+        }
+        Node<T> *smallest = this;
+        for (auto child : children) {
+            if (child->value < smallest->value) {
+                smallest = child;
+            }
+        }
+        if (smallest != this) {
+            swap(*smallest);
+            smallest->heapify();
+        }
+        for (auto child : children) {
+            child->heapify();
+        }
+    }
 };
 
 template <typename T>
@@ -116,7 +138,6 @@ public:
             Node<T> *tmp = curr;
             unsigned t = 0;
             while (true) {
-                // while (t != this->queue.size()) {
                 for (unsigned i = 0; i < tmp->children.size(); ++i) {
                     this->queue.push_back(tmp->children[i]);
                 }
@@ -289,10 +310,10 @@ public:
 
     Tree() : k(B_MAX_CHILDREN), nodes() {}
     Tree(unsigned max_children_pre_node) : k(max_children_pre_node), nodes() {}
-    ~Tree() { delete(window); }
+      ~Tree() { delete (window); }
 
     inline const vector<Node<T> *> &getNodes() const { return nodes; }
-    inline const Node<T> * getRoot() const { return root; }
+    inline const Node<T> *getRoot() const { return root; }
 
     inline bool add_root(Node<T> &new_root) {
         return add_root(&new_root);
@@ -408,66 +429,13 @@ public:
         return Treeterator(PRE, nullptr);
     }
 
-    Treeterator myHeap(Treeterator pre_order_it, /*Treeterator post_order, */ Treeterator in_order_it) {
-        if (pre_order_it.type != PRE || /*post_order.type != POST ||*/ in_order_it.type != INORDER) {
-            throw runtime_error("Mismatched Treeterators types");
-        }
-        return myHeap();
-    }
-
-    Treeterator myHeap() {
-        // if (k > B_MAX_CHILDREN) {
-        //     throw runtime_error("Tree is not binary");
-        // }
-
-        std::sort(nodes.begin(), nodes.end(), customComparator<T>);
-        Treeterator ans = Treeterator(HEAP, nodes[0]);
-        ans.queue = nodes;
-        ans.queue.erase(ans.queue.begin());
-
-        // vector<Node<T> *> preorder, inorder;
-        // while (pre_order_it.curr != nullptr) {
-        //   preorder.push_back(pre_order_it.curr);
-        //   ++pre_order_it;
-        // }
-        // while (in_order_it.curr != nullptr) {
-        //   inorder.push_back(in_order_it.curr);
-        //   ++in_order_it;
-        // }
-
-        // Node<T> *reco = reconstructTree(preorder, inorder);
-
-        return ans;
-    }
-
-    inline Node<T> *reconstructTree(vector<Node<T> *> /*&*/ preorder, vector<Node<T> *> /*&*/ inorder) {
-        if (preorder.empty() || inorder.empty()) {
-            return nullptr;
-        }
-        Node<T> *root = new Node<T>(preorder[0]->getValue());
-        unsigned root_index_in_inorder = 0;
-        while (inorder[root_index_in_inorder] != preorder[0]) {
-            ++root_index_in_inorder;
+    inline tuple<Treeterator, Treeterator> myHeap() {
+        if (k > B_MAX_CHILDREN) {
+            throw runtime_error("Tree is not binary");
         }
 
-        vector<Node<T> *> left_inorder, right_inorder, left_preorder, right_preorder;
-        for (unsigned i = 0; i < root_index_in_inorder; ++i) {
-            left_inorder.push_back(inorder[i]);
-        }
-        for (unsigned i = root_index_in_inorder + 1; i < inorder.size(); ++i) {
-            right_inorder.push_back(inorder[i]);
-        }
-        for (unsigned i = 1; i < 1 + left_inorder.size(); ++i) {
-            left_preorder.push_back(preorder[i]);
-        }
-        for (unsigned i = 1 + left_inorder.size(); i < preorder.size(); ++i) {
-            right_preorder.push_back(preorder[i]);
-        }
-
-        root->addChild(reconstructTree(left_preorder, left_inorder));
-        root->addChild(reconstructTree(right_preorder, right_inorder));
-
-        return root;
+        this->root->heapify();
+        return tuple(this->begin_pre_order(), this->end_pre_order());
     }
 
     void operator~() {
